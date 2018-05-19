@@ -70,10 +70,25 @@ VehicleCommand QuadControl::GenerateMotorCommands(float collThrustCmd, V3F momen
 
   ////////////////////////////// BEGIN STUDENT CODE ///////////////////////////
 
-  cmd.desiredThrustsN[0] = mass * 9.81f / 4.f; // front left
-  cmd.desiredThrustsN[1] = mass * 9.81f / 4.f; // front right
-  cmd.desiredThrustsN[2] = mass * 9.81f / 4.f; // rear left
-  cmd.desiredThrustsN[3] = mass * 9.81f / 4.f; // rear right
+  // cmd.desiredThrustsN[0] = mass * 9.81f / 4.f; // front left
+  // cmd.desiredThrustsN[1] = mass * 9.81f / 4.f; // front right
+  // cmd.desiredThrustsN[2] = mass * 9.81f / 4.f; // rear left
+  // cmd.desiredThrustsN[3] = mass * 9.81f / 4.f; // rear right
+
+  // Get projected arm length
+  float L_proj = L / sqrt( 2.0f );
+  
+  // Get the desired rotation moment on each axis
+  float Thrust_1 =   momentCmd.x / L_proj;
+  float Thrust_2 =   momentCmd.y / L_proj;
+  float Thrust_3 = - momentCmd.z / kappa;
+  float Thrust_4 =   collThrustCmd;
+
+  // Calculate the desried motor commands
+  cmd.desiredThrustsN[0] = (  t1 + t2 + t3 + t4) / 4.0f; // front left   - f1
+  cmd.desiredThrustsN[1] = ( -t1 + t2 - t3 + t4) / 4.0f; // front right  - f2
+  cmd.desiredThrustsN[2] = (  t1 - t2 - t3 + t4) / 4.0f; // rear left    - f4
+  cmd.desiredThrustsN[3] = ( -t1 - t2 + t3 + t4) / 4.0f; // rear right   - f3
 
   /////////////////////////////// END STUDENT CODE ////////////////////////////
 
@@ -98,7 +113,16 @@ V3F QuadControl::BodyRateControl(V3F pqrCmd, V3F pqr)
 
   ////////////////////////////// BEGIN STUDENT CODE ///////////////////////////
 
-  
+  // Create moment vector for x, y, z axes
+  V3F M_Inertia;
+
+  // Assign value to moment vector
+  M_Inertia.x = Ixx
+  M_Inertia.y = Iyy;
+  M_Inertia.z = Izz;
+
+  // Calculate the desired moment vector
+  momentCmd = M_Inertia * kpPQR * ( pqrCmd - pqr );
 
   /////////////////////////////// END STUDENT CODE ////////////////////////////
 
