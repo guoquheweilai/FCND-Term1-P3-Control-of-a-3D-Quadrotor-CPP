@@ -153,7 +153,33 @@ V3F QuadControl::RollPitchControl(V3F accelCmd, Quaternion<float> attitude, floa
 
   ////////////////////////////// BEGIN STUDENT CODE ///////////////////////////
 
+  // Initialize desired roll and pitch rates.
+  pqrCmd.x = 0;
+  pqrCmd.y = 0;
+  pqrCmd.z = 0;
 
+  // Update desited roll and pitch rates when collThrustCmd is larger than 0
+  if ( collThrustCmd > 0) {
+
+	  // Precalculate some command values
+	  float c = -collThrustCmd / mass;
+	  float b_x_c = CONSTRAIN(accelCmd.x / c, -maxTiltAngle, maxTiltAngle);
+	  float b_y_c = CONSTRAIN(accelCmd.y / c, -maxTiltAngle, maxTiltAngle);
+
+	  // Update the roll rate
+	  float b_x        = R(0, 2);
+	  float b_x_err    = b_x_c - b_x;
+	  float b_x_p_term = kpBank * b_x_err;
+	  
+	  // Update the pitch rate
+	  float b_y = R(1, 2);
+	  float b_y_err = b_y_c - b_y;
+	  float b_y_p_term = kpBank * b_y_err;
+
+	  // Normalize and calculate the roll and pitch rates
+	  pqrCmd.x = (R(1, 0) * b_x_p_term - R(0, 0) * b_y_p_term) / R(2, 2);
+	  pqrCmd.y = (R(1, 1) * b_x_p_term - R(0, 1) * b_y_p_term) / R(2, 2);
+  }
 
   /////////////////////////////// END STUDENT CODE ////////////////////////////
 
@@ -246,6 +272,28 @@ float QuadControl::YawControl(float yawCmd, float yaw)
   float yawRateCmd=0;
   ////////////////////////////// BEGIN STUDENT CODE ///////////////////////////
 
+  // Limit yaw control command
+  float yawCmd_Limit = 0;
+  if ( yawCmd > 0 ) {
+	  yawCmd_Limit =  fmodf( yawCmd, 2 * F_PI);
+  }
+  else {
+	  yawCmd_Limit = -fmodf(-yawCmd, 2 * F_PI);
+  }
+
+  // Calculate the residual/error
+  float psi_err = yawCmd_Limit - yaw;
+
+  // Make sure residual/error is within ( -pi, pi ) range
+  while ( psi_err >  F_PI ) {
+	  psi_err -= 2 * F_PI;
+  }
+  while ( psi_err < -F_PI ) {
+	  psi_err += 2 * F_PI;
+  }
+
+  // Calculate the yaw rate command
+  yawRateCmd = kpYaw * psi_err;
 
   /////////////////////////////// END STUDENT CODE ////////////////////////////
 
