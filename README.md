@@ -1,4 +1,24 @@
-# The C++ Project Readme #
+# FCND-Term1-P3-Control-of-a-3D-Quadrotor-CPP  
+
+## Overview  
+## Prerequisites  
+## Setup Instructions (abbreviated)  
+## Project Description  
+## Run the project  
+
+## Project Rubric  
+### 1. Writeup  
+#### 1.1 Provide a Writeup / README that includes all the rubric points and how you addressed each one. You can submit your writeup as markdown or pdf.  
+You are reading it!  
+### 2. Implemented Controller  
+#### 2.1 Implemented body rate control in C++.  
+#### 2.2 Implement roll pitch control in C++.  
+#### 2.3 Implement altitude controller in C++.  
+#### 2.4 Implement lateral position control in C++.  
+#### 2.5 Implement yaw control in C++.  
+#### 2.6 Implement calculating the motor commands given commanded thrust and moments in C++.  
+### 3. Flight Evaluation
+#### 3.1 Your C++ controller is successfully able to fly the provided test trajectory and visually passes inspection of the scenarios leading up to the test trajectory.  
 
 This is the readme for the C++ project.
 
