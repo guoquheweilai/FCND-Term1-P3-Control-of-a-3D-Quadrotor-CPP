@@ -85,10 +85,10 @@ VehicleCommand QuadControl::GenerateMotorCommands(float collThrustCmd, V3F momen
   float Thrust_4 =   collThrustCmd;
 
   // Calculate the desried motor commands
-  cmd.desiredThrustsN[0] = (  t1 + t2 + t3 + t4) / 4.0f; // front left   - f1
-  cmd.desiredThrustsN[1] = ( -t1 + t2 - t3 + t4) / 4.0f; // front right  - f2
-  cmd.desiredThrustsN[2] = (  t1 - t2 - t3 + t4) / 4.0f; // rear left    - f4
-  cmd.desiredThrustsN[3] = ( -t1 - t2 + t3 + t4) / 4.0f; // rear right   - f3
+  cmd.desiredThrustsN[0] = (  Thrust_1 + Thrust_2 + Thrust_3 + Thrust_4) / 4.0f; // front left   - f1
+  cmd.desiredThrustsN[1] = ( -Thrust_1 + Thrust_2 - Thrust_3 + Thrust_4) / 4.0f; // front right  - f2
+  cmd.desiredThrustsN[2] = (  Thrust_1 - Thrust_2 - Thrust_3 + Thrust_4) / 4.0f; // rear left    - f4
+  cmd.desiredThrustsN[3] = ( -Thrust_1 - Thrust_2 + Thrust_3 + Thrust_4) / 4.0f; // rear right   - f3
 
   /////////////////////////////// END STUDENT CODE ////////////////////////////
 
@@ -117,7 +117,7 @@ V3F QuadControl::BodyRateControl(V3F pqrCmd, V3F pqr)
   V3F M_Inertia;
 
   // Assign value to moment vector
-  M_Inertia.x = Ixx
+  M_Inertia.x = Ixx;
   M_Inertia.y = Iyy;
   M_Inertia.z = Izz;
 
