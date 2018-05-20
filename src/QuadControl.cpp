@@ -211,8 +211,28 @@ float QuadControl::AltitudeControl(float posZCmd, float velZCmd, float posZ, flo
 
   ////////////////////////////// BEGIN STUDENT CODE ///////////////////////////
 
+  // Calculate the residual/error
+  float z_err     = posZCmd - posZ;
+  float z_err_dot = velZCmd - velZ;
+  integratedAltitudeError += z_err * dt;
 
+  // Calculate the P, I and D terms
+  float p_term = kpPosZ * z_err;
+  float i_term = KiPosZ * integratedAltitudeError;
+  float d_term = kpVelZ * z_err_dot + velZ;
+  float b_z = R(2, 2);
 
+  // Calculate the desired acceleration
+  float u_1_bar = p_term + i_term + d_term + accelZCmd;
+  float c       = ( u_1_bar - CONST_GRAVITY ) / b_z;
+
+  // Calculate the desired thrust
+  // Remember that for an upright quad in NED, thrust should be HIGHER if the desired Z acceleration is LOWER
+  float c_Ascent_limit = maxAscentRate / dt;
+  float c_Descent_limit = maxDescentRate / dt;
+  thrust = -mass * CONSTRAIN(c, -c_Ascent_limit, c_Ascent_limit); // Use max ascent limit for calculation right now.
+  // TODO: Add use descent limit on acceleration
+  
   /////////////////////////////// END STUDENT CODE ////////////////////////////
   
   return thrust;
@@ -249,7 +269,33 @@ V3F QuadControl::LateralPositionControl(V3F posCmd, V3F velCmd, V3F pos, V3F vel
 
   ////////////////////////////// BEGIN STUDENT CODE ///////////////////////////
 
+  // Initialize position gain vector
+  V3F kpPos;
+  kpPos.x = kpPosXY;
+  kpPos.y = kpPosXY;
+  kpPos.z = 0.0f;
+
+  // Initialize velocity gain vector
+  V3F kpVel;
+  kpVel.x = kpVelXY;
+  kpVel.y = kpVelXY;
+  kpVel.z = 0.0f;
   
+  // Limit velocity to the maximum horizontal velocity
+  V3F velCmd_Limit;
+  if ( velCmd.mag() > maxSpeedXY ) {
+	  velCmd_Limit = velCmd.norm() * maxSpeedXY;
+  } else {
+	  velCmd_Limit = velCmd;
+  }
+
+  // Calculate the acceleration
+  accelCmd += kpPos * ( posCmd - pos ) + kpVel * ( velCmd_Limit - vel );
+
+  // Limit velocity to the maximum horizontal acceleration
+  if ( accelCmd.mag() > maxAccelXY ) {
+	  accelCmd = accelCmd.norm() * maxAccelXY;
+  }
 
   /////////////////////////////// END STUDENT CODE ////////////////////////////
 
@@ -276,8 +322,7 @@ float QuadControl::YawControl(float yawCmd, float yaw)
   float yawCmd_Limit = 0;
   if ( yawCmd > 0 ) {
 	  yawCmd_Limit =  fmodf( yawCmd, 2 * F_PI);
-  }
-  else {
+  } else {
 	  yawCmd_Limit = -fmodf(-yawCmd, 2 * F_PI);
   }
 
