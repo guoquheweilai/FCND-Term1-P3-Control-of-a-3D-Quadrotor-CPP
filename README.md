@@ -6,14 +6,19 @@ You will be porting some of that logic over to a controller that's written in C+
 
 For easy navigation throughout this document, here is an outline:
 
- - [Development environment setup](#development-environment-setup)
- - [Simulator walkthrough](#simulator-walkthrough)
+ - [Prerequisites](#prerequisites)
+ - [Setup Instructions](#setup-instructions)
  - [The tasks](#the-tasks)
  - [Evaluation](#evaluation)
+ - [Project Description](#project-description)
+ - [Run the project](#run-the-project)
+ - [Project Rubric](#project-rubric)
  
 ## Prerequisites  
-## Setup Instructions (abbreviated)  
-Regardless of your development platform, the first step is to download or clone this repository.
+To run this project, you need to have the following software installed:  
+- [Visual Studio](https://www.visualstudio.com/vs/community/)  
+## Setup Instructions  
+Regardless of your development platform, the first step is to download or clone this [C++ simulator repository](https://github.com/udacity/FCND-Controls-CPP).
 
 Once you have the code for the simulator, you will need to install the necessary compiler and IDE necessary for running the simulator.
 
@@ -200,6 +205,10 @@ The specific performance metrics are as follows:
    
 
 ## Project Description  
+- [QuadControl.cpp](./src/QuadControl.cpp): This file contains all of the code for the controller that you will be developing.  
+- [QuadControlParams.txt](./config/QuadControlParams.txt): This file contains all your control gains and other desired tuning parameters.  
+- [README.md](./README.md): Writeup for this project, including setup, running instructions and project rubric addressing.  
+
 ## Run the project  
 To compile and run the project / simulator, simply click on the green play button at the top of the screen.  When you run the simulator, you should see a single quadcopter, falling down.  
 
