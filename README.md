@@ -231,3 +231,4 @@ Yaw control was implemented at [`/src/QuadControl.cpp` Line319-343](./src/QuadCo
 Generate motor commands was implemented at [`/src/QuadControl.cpp` Line71-93](./src/QuadControl.cpp#L71-L93)  
 ### 3. Flight Evaluation
 #### 3.1 Your C++ controller is successfully able to fly the provided test trajectory and visually passes inspection of the scenarios leading up to the test trajectory.  
+![1_Intro](./videos/1_Intro.mp4)  
