@@ -218,10 +218,16 @@ To compile and run the project / simulator, simply click on the green play butto
 You are reading it!  
 ### 2. Implemented Controller  
 #### 2.1 Implemented body rate control in C++.  
+Body rate control was implemented at [`/src/QuadControl.cpp` Line114-127](./src/QuadControl.cpp#114-127)  
 #### 2.2 Implement roll pitch control in C++.  
+Roll pitch control was implemented at [`/src/QuadControl.cpp` Line154-184](./src/QuadControl.cpp#154-184)  
 #### 2.3 Implement altitude controller in C++.  
+Altitude control was implemented at [`/src/QuadControl.cpp` Line212-236](./src/QuadControl.cpp#212-236)  
 #### 2.4 Implement lateral position control in C++.  
+Lateral position control was implemented at [`/src/QuadControl.cpp` Line270-300](./src/QuadControl.cpp#270-300)  
 #### 2.5 Implement yaw control in C++.  
+Yaw control was implemented at [`/src/QuadControl.cpp` Line319-343](./src/QuadControl.cpp#319-343)  
 #### 2.6 Implement calculating the motor commands given commanded thrust and moments in C++.  
+Generate motor commands was implemented at [`/src/QuadControl.cpp` Line71-93](./src/QuadControl.cpp#71-93)  
 ### 3. Flight Evaluation
 #### 3.1 Your C++ controller is successfully able to fly the provided test trajectory and visually passes inspection of the scenarios leading up to the test trajectory.  
